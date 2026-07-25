@@ -1,0 +1,124 @@
+{
+  "name": "hassweather-nua",
+  "author": "vincentezw",
+  "version": "3.0.0",
+  "keywords": ["pebble-app"],
+  "private": true,
+  "dependencies": {
+    "pebble-fctx": "^1.6.5",
+    "@rebble/clay": "^1.0.8"
+  },
+  "pebble": {
+    "displayName": "hassweather-nua",
+    "uuid": "8f99cb83-8b0f-4982-bb0b-aa2ed7fb2233",
+    "sdkVersion": "3",
+    "enableMultiJS": true,
+    "targetPlatforms": [
+      "basalt",
+      "chalk",
+      "diorite",
+      "emery",
+      "flint",
+      "gabbro"
+    ],
+    "watchapp": {
+      "watchface": true
+    },
+    "messageKeys": [
+      "COMMAND",
+      "FORECAST",
+      "SUN"
+    ],
+    "resources": {
+      "media": [
+        {
+          "file": "fonts/AvenirNextRegular.ffont",
+          "name": "AVENIR_NEXT_REGULAR",
+          "type": "raw",
+          "targetPlatforms": [
+            "basalt",
+            "chalk",
+            "diorite",
+            "emery",
+            "flint",
+            "gabbro"
+          ]
+        },
+        {
+          "type": "png",
+          "name": "WEATHER_SUNNY",
+          "file": "img/sunny.png"
+        },
+        {
+          "type": "png",
+          "name": "WEATHER_PARTLY_CLOUDY",
+          "file": "img/partly-cloudy.png"
+        },
+        {
+          "type": "png",
+          "name": "WEATHER_CLOUDY",
+          "file": "img/cloudy.png"
+        },
+        {
+          "type": "png",
+          "name": "WEATHER_LIGHT_RAIN",
+          "file": "img/light-rain.png"
+        },
+        {
+          "type": "png",
+          "name": "WEATHER_HEAVY_RAIN",
+          "file": "img/heavy-rain.png"
+        },
+        {
+          "type": "png",
+          "name": "WEATHER_HEAVY_SNOW",
+          "file": "img/heavy-snow.png"
+        },
+        {
+          "type": "png",
+          "name": "WEATHER_RAIN_SNOW",
+          "file": "img/rain-snow.png"
+        },
+        {
+          "type": "png",
+          "name": "WEATHER_GENERIC",
+          "file": "img/generic.png"
+        },
+        {
+          "type": "png",
+          "name": "WEATHER_UNKNOWN",
+          "file": "img/unknown.png"
+        },
+        {
+          "type": "png",
+          "name": "SUNRISE",
+          "file": "img/sunrise.png"
+        },
+        {
+          "type": "png",
+          "name": "SUNSET",
+          "file": "img/sunset.png"
+        },
+        {
+          "type": "png",
+          "name": "BT_DISCONNECTED",
+          "file": "img/bt-disconnected.png"
+        },
+        {
+          "file": "data/DATE_BG.pdc",
+          "name": "DATE_BG",
+          "type": "raw"
+        },
+        {
+          "file": "data/DATE_BG_LG.pdc",
+          "name": "DATE_BG_LG",
+          "type": "raw",
+          "targetPlatforms": [
+            "emery",
+            "gabbro"
+          ]
+        }
+      ]
+    }
+  }
+}

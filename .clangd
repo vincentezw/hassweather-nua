@@ -1,0 +1,4 @@
+CompileFlags:
+  Add:
+    - -I/home/vincent/.pebble-sdk/SDKs/4.17/sdk-core/pebble/emery/include
+    - -I./src
