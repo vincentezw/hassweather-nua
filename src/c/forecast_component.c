@@ -157,7 +157,9 @@ void forecast_component_render(void) {
     struct tm *tm_info = localtime(&hour_time);
     static char hour_buffers[DISPLAY_SLOTS][8];
 
-    if (clock_is_24h_style()) {
+    if (slot == 0) {
+      snprintf(hour_buffers[slot], sizeof(hour_buffers[slot]), "Now");
+    } else if (clock_is_24h_style()) {
       strftime(hour_buffers[slot], sizeof(hour_buffers[slot]), "%Hh", tm_info);
     } else {
       strftime(hour_buffers[slot], sizeof(hour_buffers[slot]), "%I%P", tm_info);
