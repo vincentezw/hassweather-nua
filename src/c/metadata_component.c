@@ -30,8 +30,16 @@ static void metadata_layer_update_proc(Layer *layer, GContext *ctx) {
 
     gdraw_command_image_draw(ctx, s_date_image, GPoint(bounds.size.w - 36, 20));
     graphics_context_set_text_color(ctx, GColorBlack);
-    graphics_draw_text(ctx, currentDayNum, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD),
-                       GRect(bounds.size.w - 35, 20, 26, 26),
+    char * font_key = FONT_KEY_GOTHIC_18_BOLD;
+    int font_x = bounds.size.w - 37;
+    int font_y = 23;
+#if defined(PBL_PLATFORM_EMERY) || defined(PBL_PLATFORM_GABBRO)
+    font_key = FONT_KEY_GOTHIC_24_BOLD;
+    font_x = bounds.size.w - 35;
+    font_y = 20;
+#endif
+    graphics_draw_text(ctx, currentDayNum, fonts_get_system_font(font_key),
+                       GRect(font_x, font_y, 26, 26),
                        GTextOverflowModeFill, GTextAlignmentCenter, NULL);
   }
 

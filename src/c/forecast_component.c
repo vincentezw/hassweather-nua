@@ -1,5 +1,6 @@
 #include "forecast_component.h"
 #include "app_message_manager.h"
+#include "hassweather-nua.h"
 
 static ForecastData s_forecast = {0};
 static GBitmap *s_weather_icons[WEATHER_ICON_COUNT];
@@ -35,6 +36,9 @@ void forecast_component_init(void) {
   for (int i = 0; i < WEATHER_ICON_COUNT; i++) {
     s_weather_icons[i] = gbitmap_create_with_resource(WEATHER_ICON_RESOURCES[i]);
   }
+  if (persist_exists(FORECAST_PERSIST_KEY)) {
+    persist_read_data(FORECAST_PERSIST_KEY, &s_forecast, sizeof(ForecastData));
+  }
 }
 
 void forecast_component_deinit(void) {
@@ -49,7 +53,10 @@ void forecast_component_deinit(void) {
 void forecast_component_create_slots(Layer *parent, GRect bounds) {
   const int icon_size = 40;
   const int label_height = 18;
-  const int bottom_margin = 10;
+  int bottom_margin = 0;
+#if defined(PBL_PLATFORM_EMERY) || defined(PBL_PLATFORM_GABBRO)
+  bottom_margin = 10;
+#endif
   const int spacing = (bounds.size.w - (DISPLAY_SLOTS * icon_size)) / (DISPLAY_SLOTS + 1);
 
   for (int i = 0; i < DISPLAY_SLOTS; i++) {
@@ -123,6 +130,8 @@ void forecast_component_parse_data(Tuple *tuple) {
     if (!token) return;
     s_forecast.temperature[i] = atoi(token);
   }
+
+  persist_write_data(FORECAST_PERSIST_KEY, &s_forecast, sizeof(ForecastData));
 }
 
 void forecast_component_render(void) {

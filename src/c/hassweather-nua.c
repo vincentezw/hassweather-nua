@@ -36,7 +36,8 @@ static void pick_next_bg_color(void) {
 }
 
 static void weather_background_draw(Layer *layer, GContext *ctx) {
-  graphics_context_set_fill_color(ctx, s_current_bg_color);
+  GColor fill_color = COLOR_FALLBACK(s_current_bg_color, GColorLightGray);
+  graphics_context_set_fill_color(ctx, fill_color);
   graphics_fill_rect(ctx, layer_get_bounds(layer), 0, GCornerNone);
 }
 
@@ -59,9 +60,15 @@ static void time_layer_update_proc(Layer *layer, GContext *ctx) {
   fctx_init_context(&fctx, ctx);
   fctx_set_color_bias(&fctx, 0);
   fctx_set_fill_color(&fctx, GColorBlack);
-  fctx_set_text_em_height(&fctx, s_avenir_font, 78);
+  int font_size = 52;
+  int time_y = 42;
+#if defined(PBL_PLATFORM_EMERY) || defined(PBL_PLATFORM_GABBRO)
+  font_size = 78;
+  time_y = 60;
+#endif
+  fctx_set_text_em_height(&fctx, s_avenir_font, font_size);
 
-  fctx_set_offset(&fctx, FPointI(bounds.size.w / 2, 60));
+  fctx_set_offset(&fctx, FPointI(bounds.size.w / 2, time_y));
   fctx_begin_fill(&fctx);
   fctx_draw_string(&fctx, s_time_buffer, s_avenir_font, GTextAlignmentCenter, FTextAnchorMiddle);
   fctx_end_fill(&fctx);
@@ -127,13 +134,23 @@ static void prv_window_load(Window *window) {
   layer_add_child(window_layer, s_time_layer);
 
   // 3. Weather Background & Slots
-  s_weather_background_layer = layer_create(GRect(0, bounds.size.h - 90, bounds.size.w, 90));
+  int weather_height = 75;
+#if defined(PBL_PLATFORM_EMERY) || defined(PBL_PLATFORM_GABBRO)
+  weather_height = 90;
+#endif
+  s_weather_background_layer = layer_create(GRect(0, bounds.size.h - weather_height, bounds.size.w, bounds.size.h));
   layer_set_update_proc(s_weather_background_layer, weather_background_draw);
   layer_add_child(window_layer, s_weather_background_layer);
   forecast_component_create_slots(window_layer, bounds);
 
   // 4. Metadata Layer (Date & Battery)
-  metadata_component_create_layer(GRect(0, 80, bounds.size.w, bounds.size.h - 90));
+  int metadata_y = 43;
+  int offset_y = 15;
+#if defined(PBL_PLATFORM_EMERY) || defined(PBL_PLATFORM_GABBRO)
+  metadata_y = 80;
+  offset_y = 60;
+#endif
+  metadata_component_create_layer(GRect(0, metadata_y, bounds.size.w, bounds.size.h - offset_y));
   layer_add_child(window_layer, metadata_component_get_layer());
 
   // Initial renders

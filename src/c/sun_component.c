@@ -1,4 +1,5 @@
 #include "sun_component.h"
+#include "hassweather-nua.h"
 
 static SunData s_sun = {0};
 static SunState s_current_sun_state = {0};
@@ -75,6 +76,9 @@ static void sunstate_background_draw(Layer *layer, GContext *ctx) {
 void sun_component_init(GBitmap *sunrise_icon, GBitmap *sunset_icon) {
   s_sunrise_icon = sunrise_icon;
   s_sunset_icon = sunset_icon;
+  if (persist_exists(SUN_PERSIST_KEY)) {
+    persist_read_data(SUN_PERSIST_KEY, &s_sun, sizeof(SunData));
+  }
 }
 
 void sun_component_create_layer(GRect bounds) {
@@ -108,6 +112,8 @@ void sun_component_parse_data(Tuple *tuple) {
   if (comma) {
     s_sun.sunset = (time_t)atol(comma + 1);
   }
+
+  persist_write_data(SUN_PERSIST_KEY, &s_sun, sizeof(SunData));
 }
 
 void sun_component_render(void) {
